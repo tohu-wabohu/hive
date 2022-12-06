@@ -1,8 +1,9 @@
 import time
 
 while True:
-    t = time.time()
+    t  = time.time()
+    ts = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))
 
-    print(time.strftime('%Y-%m-%d %H:%M:%S %Z', time.localtime(time.time())))
+    print(ts)
 
     time.sleep(5)
