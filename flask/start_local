@@ -1,0 +1,6 @@
+#!/bin/bash
+
+name=flask
+
+docker rm -f $name
+docker build -t $name . && docker run --name flask --rm -d -v $(pwd):/app --network hive flask sleep infinity

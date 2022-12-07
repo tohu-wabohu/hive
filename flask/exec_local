@@ -1,0 +1,5 @@
+#!/bin/bash
+
+name=flask
+
+docker exec -it $name /bin/bash -l

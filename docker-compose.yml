@@ -1,0 +1,80 @@
+version: '2'
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.0
+    container_name: 'es01'
+    hostname: 'es01'
+    environment:
+      - node.name=es01
+      - cluster.name=elastic-production
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - es01-data:/usr/share/elasticsearch/data
+    networks:
+      - hive
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  es02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.0
+    container_name: 'es02'
+    hostname: 'es02'
+    environment:
+      - node.name=es02
+      - cluster.name=elastic-production
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - es02-data:/usr/share/elasticsearch/data
+    networks:
+      - hive
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  es03:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.0
+    container_name: 'es03'
+    hostname: 'es03'
+    environment:
+      - node.name=es03
+      - cluster.name=elastic-production
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - es03-data:/usr/share/elasticsearch/data
+    networks:
+      - hive
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+
+volumes:
+  es01-data:
+    driver: local
+  es02-data:
+    driver: local
+  es03-data:
+    driver: local
+
+
+networks:
+  hive:
+    name: hive
+    driver: bridge
+
