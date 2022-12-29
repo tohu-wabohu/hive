@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source config
+
+ansible all -i $host, -u $user -m shell -a "uname -a" || exit 1
+
+ansible-playbook -i ${host}, -u ${user} prepare-playbook.yml || exit 1
+
