@@ -1,0 +1,6 @@
+services:
+  redis:
+    image: "redis:6.2.4"
+    volumes:
+      - ./redis.conf:/redis.conf
+    command: redis-server /redis.conf

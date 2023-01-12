@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ 
+
+cd $1 || (echo "cd failed"; exit 1)

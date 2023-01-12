@@ -3,6 +3,11 @@
   become: true
 
   tasks:
+    - name: end play if not Ubuntu
+      fail:
+        msg: "This playbook is only for Ubuntu"
+      when: ansible_distribution != "Ubuntu"
+
     - name: Install aptitude
       apt:
         name: aptitude
@@ -21,4 +26,23 @@
           - python3-setuptools
         state: latest
         update_cache: true
+
+    - name: Add Docker’s official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker’s official repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        pkg:
+          - docker-ce
+          - docker-compose-plugin
+        state: latest
+        update_cache: true
+
 
